@@ -1,0 +1,97 @@
+<form class="admin-form">
+  <mat-card>
+    <mat-card-title>Administrative Panel - Add New Movie</mat-card-title>
+    <mat-card-content>
+      <!-- Cinema Information -->
+      <h3>Cinema Information</h3>
+      <table class="example-full-width" cellspacing="0">
+        <tr>
+          <td>
+            <mat-form-field class="example-full-width">
+              <mat-label>Admin Name</mat-label>
+              <input matInput placeholder="Enter your name" required>
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field class="example-full-width">
+              <mat-label>Cinema Name</mat-label>
+              <input matInput placeholder="Enter the cinema name" required>
+            </mat-form-field>
+          </td>
+        </tr>
+      </table>
+
+      <!-- Movie Information -->
+      <h3>Movie Information</h3>
+      <mat-form-field class="example-full-width">
+        <mat-label>Movie Title</mat-label>
+        <input matInput placeholder="Enter the movie title" required>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Description</mat-label>
+        <textarea matInput placeholder="Write a brief description"></textarea>
+      </mat-form-field>
+
+      <table class="example-full-width" cellspacing="0">
+        <tr>
+          <td>
+            <mat-form-field class="example-full-width">
+              <mat-label>Genre</mat-label>
+              <input matInput placeholder="e.g., Action, Comedy, Drama" required>
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field class="example-full-width">
+              <mat-label>Duration (minutes)</mat-label>
+              <input matInput type="number" placeholder="e.g., 120" required>
+            </mat-form-field>
+          </td>
+        </tr>
+      </table>
+
+      <table class="example-full-width" cellspacing="0">
+        <tr>
+          <td>
+            <mat-form-field class="example-full-width">
+              <mat-label>Release Date</mat-label>
+              <input matInput [matDatepicker]="releaseDatePicker" placeholder="Select release date" required>
+              <mat-datepicker-toggle matSuffix [for]="releaseDatePicker"></mat-datepicker-toggle>
+              <mat-datepicker #releaseDatePicker></mat-datepicker>
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field class="example-full-width">
+              <mat-label>Language</mat-label>
+              <input matInput placeholder="e.g., English, French, Arabic" required>
+            </mat-form-field>
+          </td>
+        </tr>
+      </table>
+
+      <!-- Showtime Information -->
+      <h3>Showtime Information</h3>
+      <mat-form-field class="example-full-width">
+        <mat-label>Screening Dates</mat-label>
+        <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+          <input matStartDate formControlName="start" placeholder="Start date" required>
+          <input matEndDate formControlName="end" placeholder="End date" required>
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Showtime</mat-label>
+        <input matInput placeholder="e.g., 2:00 PM, 5:00 PM" required>
+      </mat-form-field>
+
+      <!-- Submit Button -->
+      <div class="form-actions">
+        <button mat-raised-button color="primary" type="submit">
+          Add Movie
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</form>
