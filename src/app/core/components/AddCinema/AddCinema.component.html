@@ -1,0 +1,49 @@
+<h1 class="user-display">Welcome, {{ username }}!</h1>
+
+<form class="admin-form">
+  <mat-card>
+    <mat-card-title>Administrative Panel - Add New Cinema</mat-card-title>
+    <mat-card-content>
+      <h3>Cinema Information</h3>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Cinema Name</mat-label>
+        <input 
+          matInput 
+          placeholder="Enter the cinema name" 
+          [(ngModel)]="CinemaDto.name" 
+          name="name" 
+          required 
+        />
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Location</mat-label>
+        <textarea 
+          matInput 
+          placeholder="Enter the cinema location" 
+          [(ngModel)]="CinemaDto.location" 
+          name="location" 
+          required
+        ></textarea>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Contact Information</mat-label>
+        <input 
+          matInput 
+          placeholder="Enter the contact info" 
+          [(ngModel)]="CinemaDto.contactInfo" 
+          name="contactInfo" 
+          required 
+        />
+      </mat-form-field>
+
+      <div class="form-actions">
+        <button mat-raised-button color="primary" type="submit" (click)="addCinema()">
+          Add Cinema
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</form>

@@ -1,0 +1,17 @@
+<div class="admin-home">
+  <mat-card>
+    <mat-card-title>Welcome, Admin!</mat-card-title>
+    <mat-card-content>
+      <p>Choose an action to perform:</p>
+      <div class="button-container">
+        <button mat-raised-button color="primary" (click)="navigateTo('administrative')">
+          Manage Movies
+        </button>
+        <button mat-raised-button color="accent" (click)="navigateTo('addCinema')">
+          Add Cinema
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+

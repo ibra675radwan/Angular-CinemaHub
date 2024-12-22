@@ -1,28 +1,32 @@
 <div class="login-page">
   <div class="login-container">
     <h1 class="login-title">Login</h1>
-    <form (submit)="login()">
+
+    <!-- Error Message -->
+    <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+    <form (ngSubmit)="login()">
       <mat-form-field appearance="fill" class="login-field">
         <mat-label>Username</mat-label>
-        <input 
-          matInput 
-          type="text" 
-          placeholder="Enter your username" 
-          [(ngModel)]="userDto.username" 
-          name="username" 
-          required 
+        <input
+          matInput
+          type="text"
+          placeholder="Enter your username"
+          [(ngModel)]="userDto.username"
+          name="username"
+          required
         />
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="login-field">
         <mat-label>Password</mat-label>
-        <input 
-          matInput 
-          type="password" 
-          placeholder="Enter your password" 
-          [(ngModel)]="userDto.password" 
-          name="password" 
-          required 
+        <input
+          matInput
+          type="password"
+          placeholder="Enter your password"
+          [(ngModel)]="userDto.password"
+          name="password"
+          required
         />
       </mat-form-field>
 
@@ -30,8 +34,5 @@
         Login
       </button>
     </form>
-    <p class="login-footer">
-      Don't have an account? <a routerLink="/register">Register here</a>
-    </p>
   </div>
 </div>

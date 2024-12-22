@@ -1,41 +1,55 @@
-import { Component, OnInit } from '@angular/core';
-import { APIClient, CinemaDTO, UserDTO, UserRequestDto } from 'app/core/services/apiClient';
+import { Component } from '@angular/core';
+import { APIClient, LoginRequestDTO } from 'app/core/services/apiClient';
+import { AuthService } from 'app/auth.service';
+import { Router } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
-
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  imports:[
-MatFormFieldModule,
-MatInputModule,
-MatButtonModule,
-FormsModule
-
-
-
-
-
-  ],
-  standalone: true
+  standalone: true,
+  imports: [
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    FormsModule,
+    NgIf
+  ]
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
+  errorMessage: string | null = null;
+  userDto: LoginRequestDTO = new LoginRequestDTO() // DTO Initialization
 
-  userDto: UserRequestDto
-  constructor(private apiClient: APIClient) { }
+  constructor(
+    private apiClient: APIClient,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
-  ngOnInit() {
-    this.userDto = new UserRequestDto(); // Initialize the DTO
-  }
+  login() {
+    console.log(this.userDto);
 
-  login(){
-    this.apiClient.login(this.userDto).subscribe(data => {
+    this.apiClient.login(this.userDto).subscribe({
       
-    })
-  }
+      next: (response: any) => {
 
+        console.log(response);
+        localStorage.setItem("user", JSON.stringify(response));
+        const token = response.token;  // Ensure correct response mapping
+        if (token) {
+          // this.authService.saveToken(token);  // Save token
+          this.router.navigate(['/movies']);  // Navigate on success        } else {
+          this.errorMessage = 'Login failed. Please try again.';
+        }
+      },
+      error: () => {
+        this.errorMessage = 'Invalid username or password.';
+      }
+    });
+  }
 }

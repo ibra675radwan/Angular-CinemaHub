@@ -13,6 +13,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDateRangeInput} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { APIClient, MovieDto } from 'app/core/services/apiClient';
+import { Router } from '@angular/router';
+
+
 
 
 @Component({
@@ -28,7 +32,6 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatIconModule,
     JsonPipe,
     MatCardModule,
-    
     ReactiveFormsModule,
     MatDatepickerModule,
 
@@ -39,21 +42,45 @@ import { MatNativeDateModule } from '@angular/material/core';
   standalone : true
 })
 export class AdministritiveComponent implements OnInit {
-  readonly range = new FormGroup({
-    start: new FormControl<Date | null>(null),
-    end: new FormControl<Date | null>(null),
-  });
-  constructor(private snackBar: MatSnackBar) { }
+  movieDto: MovieDto = new MovieDto();
 
-  ngOnInit() {
+  constructor(private apiClient: APIClient, private snackBar: MatSnackBar, private router: Router) {}
+
+  ngOnInit(): void {
+    // Retrieve cinema information from localStorage
+    const user = localStorage.getItem('user');
+    if (user) {
+      const parsedUser = JSON.parse(user);
+      this.movieDto.cinemaName = parsedUser.cinemaName; // Automatically set cinemaName
+    }
   }
-  showSnackBar(message: string) {
+
+  addMovie(): void {
+    // Validate required fields
+    if (!this.movieDto.title || !this.movieDto.releaseDate || !this.movieDto.duration || !this.movieDto.genre.name || this.movieDto.description || this.movieDto.rating) {
+      this.showSnackBar('Please fill in all required fields.');
+      return;
+    }
+
+    // Call the API to add the movie
+    this.apiClient.addMovie(this.movieDto).subscribe(
+      () => {
+        this.showSnackBar('Movie added successfully!');
+        this.router.navigate(['/movies']);
+      },
+      (error) => {
+        console.error('Error adding movie:', error);
+        this.showSnackBar('Failed to add movie.');
+      }
+    );
+  }
+
+  private showSnackBar(message: string): void {
     this.snackBar.open(message, 'Close', {
-      duration: 3000, // Duration in milliseconds
+      duration: 3000,
       horizontalPosition: 'right',
       verticalPosition: 'top',
-      panelClass:['custom-snackbar']
-    });
-}
+      });
+  }}
+
  
-}

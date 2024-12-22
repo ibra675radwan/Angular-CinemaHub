@@ -1,3 +1,6 @@
+
+
+
 <form class="admin-form">
   <mat-card>
     <mat-card-title>Administrative Panel - Add New Movie</mat-card-title>
@@ -55,7 +58,7 @@
           <td>
             <mat-form-field class="example-full-width">
               <mat-label>Release Date</mat-label>
-              <input matInput [matDatepicker]="releaseDatePicker" placeholder="Select release date" required>
+              <input matInput [matDatepicker]="releaseDatePicker" placeholder="Select release date" required />
               <mat-datepicker-toggle matSuffix [for]="releaseDatePicker"></mat-datepicker-toggle>
               <mat-datepicker #releaseDatePicker></mat-datepicker>
             </mat-form-field>
@@ -69,17 +72,7 @@
         </tr>
       </table>
 
-      <!-- Showtime Information -->
-      <h3>Showtime Information</h3>
-      <mat-form-field class="example-full-width">
-        <mat-label>Screening Dates</mat-label>
-        <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
-          <input matStartDate formControlName="start" placeholder="Start date" required>
-          <input matEndDate formControlName="end" placeholder="End date" required>
-        </mat-date-range-input>
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-date-range-picker #picker></mat-date-range-picker>
-      </mat-form-field>
+    
 
       <mat-form-field class="example-full-width">
         <mat-label>Showtime</mat-label>

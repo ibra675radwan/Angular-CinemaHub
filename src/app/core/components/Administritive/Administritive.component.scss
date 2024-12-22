@@ -1,145 +1,72 @@
+.page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  background-color: #1e1e2f; /* Deep purple background for modern theme */
+  color: #e5e5e5; /* Subtle off-white text for readability */
+}
 
+.page-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #f9a825; /* Highlighted yellow */
+}
 
+.form-container {
+  width: 100%;
+  max-width: 600px;
+  background: #2c2c3c; /* Slightly lighter background for the form */
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
 
-.home-main-content {
-    color: #00a8d6;
-  display:inline-table;
-  justify-content: left;
-  align-items: left;
-  height: 470px;;
-  font-size: 4rem;
-  margin-top: 38px;
+.mat-card-title {
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #fbc02d; /* Golden color for titles */
+  margin-bottom: 1rem;
+}
 
-  }
+mat-form-field {
+  margin-bottom: 1rem;
+  width: 100%;
+}
 
-.example-form {
-    min-width: 150px;
-    max-width: 500px;
-    width: 100%;
-  }
-  
-  .example-full-width {
-    width: 100%;
-  }
-  
-  td {
-    padding-right: 8px;
-  }
-  section {
-    display: table;
-  }
-  
-  .example-label {
-    display: table-cell;
-    font-size: 14px;
-    margin-left: 8px;
-    min-width: 120px;
-  }
-  
-  .example-button-row {
-    display: table-cell;
-    max-width: 600px;
-  }
-  
-  .example-button-row .mat-mdc-button-base {
-    margin: 8px 8px 8px 0;
-  }
-  
-  .example-flex-container {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-  }
-  
-  .example-button-container {
-    display: flex;
-    justify-content: center;
-    width: 120px;
-  }
-  .custom-snackbar {
-    background-color: #2196f3; /* Blue color */
-    color: rgb(15, 0, 98); /* Text color */
-    font-size: 16px; /* Optional: Adjust font size */
-    text-align: center; /* Optional: Center text */
-  }
-  .Date-on-right {
-    color: #dcdcdc;
-    position: absolute;
-  display:flex;
-  top: 0;             /* Aligns it to the top */
-  right: 0;
-  margin: 100px;  
-  justify-content:center;
-  align-items:normal;
-  margin-top: 70px;
-  
-  
+mat-label {
+  color: #a6a6a6 !important; /* Subtle gray for labels */
+}
 
-  }
-  .Date-on-right01 {
-    color: #c7c9d7;
-    position: absolute;
-  display:flex;
-  top: 0;             /* Aligns it to the top */
-  right: 1;
-  justify-content:center;
-  align-items:normal;
-  margin-top: 70px;
-  
+input, textarea {
+  color: #000 !important; /* Black text for input fields */
+  background-color: #fff; /* White background for input fields */
+}
 
-  }
-  .admin-form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    margin-top: 38px;
+.form-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
 
-  
-    mat-card {
-      width: 100%;
-      max-width: 600px;
-      background-color: rgba(118, 109, 109, 0.125);
-      color: #fff;
-  
-      mat-card-title {
-        text-align: center;
-        font-size: 1.5rem;
-        margin-bottom: 1rem;
-      }
-  
-      h3 {
-        margin-top: 1rem;
-        border-bottom: 1px solid #af4c4c;
-        padding-bottom: 5px;
-      }
-  
-      mat-form-field {
-        margin-bottom: 1rem;
-  
-        input, textarea {
-          color: #fff;
-        }
-  
-        .mat-mdc-form-field-ripple {
-          background-color: #af4c4c;
-        }
-  
-        mat-label {
-          color: #947f7f;
-        }
-      }
-  
-      .form-actions {
-        display: flex;
-        justify-content: center;
-        margin-top: 1rem;
-  
-        button {
-          padding: 0.5rem 1.5rem;
-          font-size: 1rem;
-        }
-      }
-    }
+button {
+  background-color: #00a8d6; /* Vibrant blue button */
+  color: #fff;
+  font-weight: bold;
+  padding: 0.5rem 2rem;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #007a9c; /* Darker blue on hover */
   }
-  
+}
+
+.snackbar {
+  background-color: #00c853 !important; /* Green for success messages */
+  color: #fff;
+  text-align: center;
+  font-size: 1rem;
+}
