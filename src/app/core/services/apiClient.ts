@@ -903,21 +903,74 @@ export class APIClient {
     }
 
     /**
-     * @param body (optional) 
+     * @param movieId (optional) 
+     * @param title (optional) 
+     * @param releaseDate (optional) 
+     * @param duration (optional) 
+     * @param rating (optional) 
+     * @param genre_GenreId (optional) 
+     * @param genre_Name (optional) 
+     * @param description (optional) 
+     * @param cinemaName (optional) 
+     * @param posterUrl (optional) 
+     * @param posterFile (optional) 
      * @return Success
      */
-    addMovie(body: MovieDto | undefined): Observable<void> {
+    addMovie(movieId: number | undefined, title: string | undefined, releaseDate: string | undefined, duration: number | undefined, rating: number | undefined, genre_GenreId: number | undefined, genre_Name: string | undefined, description: string | undefined, cinemaName: string | undefined, posterUrl: string | undefined, posterFile: FileParameter | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/Movie/addMovie";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(body);
+        const content_ = new FormData();
+        if (movieId === null || movieId === undefined)
+            throw new Error("The parameter 'movieId' cannot be null.");
+        else
+            content_.append("MovieId", movieId.toString());
+        if (title === null || title === undefined)
+            throw new Error("The parameter 'title' cannot be null.");
+        else
+            content_.append("Title", title.toString());
+        if (releaseDate === null || releaseDate === undefined)
+            throw new Error("The parameter 'releaseDate' cannot be null.");
+        else
+            content_.append("ReleaseDate", releaseDate.toString());
+        if (duration === null || duration === undefined)
+            throw new Error("The parameter 'duration' cannot be null.");
+        else
+            content_.append("Duration", duration.toString());
+        if (rating === null || rating === undefined)
+            throw new Error("The parameter 'rating' cannot be null.");
+        else
+            content_.append("Rating", rating.toString());
+        if (genre_GenreId === null || genre_GenreId === undefined)
+            throw new Error("The parameter 'genre_GenreId' cannot be null.");
+        else
+            content_.append("Genre.GenreId", genre_GenreId.toString());
+        if (genre_Name === null || genre_Name === undefined)
+            throw new Error("The parameter 'genre_Name' cannot be null.");
+        else
+            content_.append("Genre.Name", genre_Name.toString());
+        if (description === null || description === undefined)
+            throw new Error("The parameter 'description' cannot be null.");
+        else
+            content_.append("Description", description.toString());
+        if (cinemaName === null || cinemaName === undefined)
+            throw new Error("The parameter 'cinemaName' cannot be null.");
+        else
+            content_.append("CinemaName", cinemaName.toString());
+        if (posterUrl === null || posterUrl === undefined)
+            throw new Error("The parameter 'posterUrl' cannot be null.");
+        else
+            content_.append("PosterUrl", posterUrl.toString());
+        if (posterFile === null || posterFile === undefined)
+            throw new Error("The parameter 'posterFile' cannot be null.");
+        else
+            content_.append("posterFile", posterFile.data, posterFile.fileName ? posterFile.fileName : "posterFile");
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
             })
         };
 
@@ -3955,72 +4008,6 @@ export interface ICinemaDTOIEnumerableAPIResponse {
     errorMessage?: string | null;
 }
 
-export class DateOnly implements IDateOnly {
-    year?: number;
-    month?: number;
-    day?: number;
-    dayOfWeek?: DayOfWeek;
-    readonly dayOfYear?: number;
-    readonly dayNumber?: number;
-
-    constructor(data?: IDateOnly) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.year = _data["year"] !== undefined ? _data["year"] : <any>null;
-            this.month = _data["month"] !== undefined ? _data["month"] : <any>null;
-            this.day = _data["day"] !== undefined ? _data["day"] : <any>null;
-            this.dayOfWeek = _data["dayOfWeek"] !== undefined ? _data["dayOfWeek"] : <any>null;
-            (<any>this).dayOfYear = _data["dayOfYear"] !== undefined ? _data["dayOfYear"] : <any>null;
-            (<any>this).dayNumber = _data["dayNumber"] !== undefined ? _data["dayNumber"] : <any>null;
-        }
-    }
-
-    static fromJS(data: any): DateOnly {
-        data = typeof data === 'object' ? data : {};
-        let result = new DateOnly();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["year"] = this.year !== undefined ? this.year : <any>null;
-        data["month"] = this.month !== undefined ? this.month : <any>null;
-        data["day"] = this.day !== undefined ? this.day : <any>null;
-        data["dayOfWeek"] = this.dayOfWeek !== undefined ? this.dayOfWeek : <any>null;
-        data["dayOfYear"] = this.dayOfYear !== undefined ? this.dayOfYear : <any>null;
-        data["dayNumber"] = this.dayNumber !== undefined ? this.dayNumber : <any>null;
-        return data;
-    }
-}
-
-export interface IDateOnly {
-    year?: number;
-    month?: number;
-    day?: number;
-    dayOfWeek?: DayOfWeek;
-    dayOfYear?: number;
-    dayNumber?: number;
-}
-
-export enum DayOfWeek {
-    _0 = 0,
-    _1 = 1,
-    _2 = 2,
-    _3 = 3,
-    _4 = 4,
-    _5 = 5,
-    _6 = 6,
-}
-
 export class GenreDTO implements IGenreDTO {
     genreId?: number;
     name?: string | null;
@@ -4271,12 +4258,13 @@ export interface ILoginRespondDto {
 export class MovieDto implements IMovieDto {
     movieId?: number;
     title?: string | null;
-    releaseDate?: DateOnly;
+    releaseDate?: string | null;
     duration?: number | null;
     rating?: number | null;
     genre?: GenreDTO;
     description?: string | null;
     cinemaName?: string | null;
+    posterUrl?: string | null;
 
     constructor(data?: IMovieDto) {
         if (data) {
@@ -4291,12 +4279,13 @@ export class MovieDto implements IMovieDto {
         if (_data) {
             this.movieId = _data["movieId"] !== undefined ? _data["movieId"] : <any>null;
             this.title = _data["title"] !== undefined ? _data["title"] : <any>null;
-            this.releaseDate = _data["releaseDate"] ? DateOnly.fromJS(_data["releaseDate"]) : <any>null;
+            this.releaseDate = _data["releaseDate"] !== undefined ? _data["releaseDate"] : <any>null;
             this.duration = _data["duration"] !== undefined ? _data["duration"] : <any>null;
             this.rating = _data["rating"] !== undefined ? _data["rating"] : <any>null;
             this.genre = _data["genre"] ? GenreDTO.fromJS(_data["genre"]) : <any>null;
             this.description = _data["description"] !== undefined ? _data["description"] : <any>null;
             this.cinemaName = _data["cinemaName"] !== undefined ? _data["cinemaName"] : <any>null;
+            this.posterUrl = _data["posterUrl"] !== undefined ? _data["posterUrl"] : <any>null;
         }
     }
 
@@ -4311,12 +4300,13 @@ export class MovieDto implements IMovieDto {
         data = typeof data === 'object' ? data : {};
         data["movieId"] = this.movieId !== undefined ? this.movieId : <any>null;
         data["title"] = this.title !== undefined ? this.title : <any>null;
-        data["releaseDate"] = this.releaseDate ? this.releaseDate.toJSON() : <any>null;
+        data["releaseDate"] = this.releaseDate !== undefined ? this.releaseDate : <any>null;
         data["duration"] = this.duration !== undefined ? this.duration : <any>null;
         data["rating"] = this.rating !== undefined ? this.rating : <any>null;
         data["genre"] = this.genre ? this.genre.toJSON() : <any>null;
         data["description"] = this.description !== undefined ? this.description : <any>null;
         data["cinemaName"] = this.cinemaName !== undefined ? this.cinemaName : <any>null;
+        data["posterUrl"] = this.posterUrl !== undefined ? this.posterUrl : <any>null;
         return data;
     }
 }
@@ -4324,12 +4314,13 @@ export class MovieDto implements IMovieDto {
 export interface IMovieDto {
     movieId?: number;
     title?: string | null;
-    releaseDate?: DateOnly;
+    releaseDate?: string | null;
     duration?: number | null;
     rating?: number | null;
     genre?: GenreDTO;
     description?: string | null;
     cinemaName?: string | null;
+    posterUrl?: string | null;
 }
 
 export class MovieDtoAPIResponse implements IMovieDtoAPIResponse {
@@ -5522,6 +5513,11 @@ export interface IUserWithCinemaDTOIEnumerableAPIResponse {
     data?: UserWithCinemaDTO[] | null;
     message?: string | null;
     errorMessage?: string | null;
+}
+
+export interface FileParameter {
+    data: any;
+    fileName: string;
 }
 
 export class ApiException extends Error {

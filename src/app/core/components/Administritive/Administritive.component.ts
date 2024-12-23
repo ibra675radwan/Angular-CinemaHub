@@ -13,9 +13,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDateRangeInput} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { APIClient, MovieDto } from 'app/core/services/apiClient';
+import { APIClient, FileParameter, GenreDTO, MovieDto } from 'app/core/services/apiClient';
 import { Router } from '@angular/router';
-
 
 
 
@@ -41,46 +40,124 @@ import { Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone : true
 })
-export class AdministritiveComponent implements OnInit {
-  movieDto: MovieDto = new MovieDto();
 
-  constructor(private apiClient: APIClient, private snackBar: MatSnackBar, private router: Router) {}
+export class AdministritiveComponent implements OnInit {
+  movieDto: MovieDto;
+  selectedFile: File | null = null;
+
+  constructor(private snackBar: MatSnackBar, private apiClient: APIClient) {
+    // Properly initialize `movieDto` with a valid `GenreDTO` instance
+    this.movieDto = {
+      movieId: 0,
+      title: '',
+      releaseDate: null,
+      duration: 0,
+      rating: 0,
+      genre: new GenreDTO(), // Use a new GenreDTO instance
+      description: '',
+      cinemaName: '',
+      posterUrl: 'default-poster.jpg',
+      init: function (_data?: any): void {
+        throw new Error('Function not implemented.');
+      },
+      toJSON: function (data?: any) {
+        throw new Error('Function not implemented.');
+      },
+    };
+
+    // Initialize the genre with default values
+    this.movieDto.genre.init({
+      genreId: 0,
+      name: '',
+    });
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+    }
+  }
 
   ngOnInit(): void {
-    // Retrieve cinema information from localStorage
-    const user = localStorage.getItem('user');
-    if (user) {
-      const parsedUser = JSON.parse(user);
-      this.movieDto.cinemaName = parsedUser.cinemaName; // Automatically set cinemaName
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    console.log('Fetched user from localStorage:', user);
+    console.log('Cinema ID:', user.cinemaId);
+
+    if (user && user.cinemaId) {
+      this.apiClient.getById(user.cinemaId).subscribe({
+        next: (cinema) => {
+          console.log('Cinema fetched successfully:', cinema);
+          this.movieDto.cinemaName = cinema.data.name;
+        },
+        error: (err) => {
+          console.error('Error fetching cinema name:', err);
+          this.snackBar.open('Failed to fetch cinema information.', 'Close', { duration: 3000 });
+        },
+      });
+    } else {
+      console.error('User or cinemaId not found in localStorage');
+      this.snackBar.open('Invalid user or cinema information.', 'Close', { duration: 3000 });
     }
   }
 
-  addMovie(): void {
-    // Validate required fields
-    if (!this.movieDto.title || !this.movieDto.releaseDate || !this.movieDto.duration || !this.movieDto.genre.name || this.movieDto.description || this.movieDto.rating) {
-      this.showSnackBar('Please fill in all required fields.');
+  addMovie() {
+    if (!this.selectedFile) {
+      this.snackBar.open('Please select a file for the poster.', 'Close', { duration: 3000 });
       return;
     }
-
-    // Call the API to add the movie
-    this.apiClient.addMovie(this.movieDto).subscribe(
-      () => {
-        this.showSnackBar('Movie added successfully!');
-        this.router.navigate(['/movies']);
+  
+    if (!this.movieDto.cinemaName) {
+      this.snackBar.open('Cinema name is missing. Please try again later.', 'Close', { duration: 3000 });
+      return;
+    }
+  
+    if (!this.movieDto.releaseDate || this.movieDto.releaseDate.trim() === '') {
+      this.snackBar.open('Release date is missing. Please provide a valid date.', 'Close', { duration: 3000 });
+      return;
+    }
+  
+    console.log('Prepared releaseDate (string):', this.movieDto.releaseDate);
+  
+    const fileParameter: FileParameter = {
+      data: this.selectedFile,
+      fileName: this.selectedFile.name,
+    };
+  
+    this.apiClient.addMovie(
+      this.movieDto.movieId,
+      this.movieDto.title,
+      this.movieDto.releaseDate, // Pass the release date as a string
+      this.movieDto.duration,
+      this.movieDto.rating,
+      this.movieDto.genre.genreId,
+      this.movieDto.genre.name,
+      this.movieDto.description,
+      this.movieDto.cinemaName,
+      this.movieDto.posterUrl || 'default-poster.jpg', // Optional PosterUrl
+      fileParameter
+    ).subscribe({
+      next: () => {
+        this.snackBar.open('Movie added successfully!', 'Close', { duration: 3000 });
       },
-      (error) => {
-        console.error('Error adding movie:', error);
-        this.showSnackBar('Failed to add movie.');
-      }
-    );
+      error: (err) => {
+        console.error('Error adding movie:', err);
+        this.snackBar.open('Failed to add movie. Please try again.', 'Close', { duration: 3000 });
+      },
+    });
   }
+  
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
-  private showSnackBar(message: string): void {
-    this.snackBar.open(message, 'Close', {
-      duration: 3000,
-      horizontalPosition: 'right',
-      verticalPosition: 'top',
-      });
-  }}
-
- 

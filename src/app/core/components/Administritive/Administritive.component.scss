@@ -1,72 +1,93 @@
-.page-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 2rem;
-  background-color: #1e1e2f; /* Deep purple background for modern theme */
-  color: #e5e5e5; /* Subtle off-white text for readability */
-}
-
-.page-title {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  color: #f9a825; /* Highlighted yellow */
-}
-
-.form-container {
-  width: 100%;
-  max-width: 600px;
-  background: #2c2c3c; /* Slightly lighter background for the form */
-  border-radius: 8px;
-  padding: 2rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-.mat-card-title {
-  text-align: center;
-  font-size: 1.25rem;
-  font-weight: 500;
-  color: #fbc02d; /* Golden color for titles */
-  margin-bottom: 1rem;
-}
-
-mat-form-field {
-  margin-bottom: 1rem;
-  width: 100%;
-}
-
-mat-label {
-  color: #a6a6a6 !important; /* Subtle gray for labels */
-}
-
-input, textarea {
-  color: #000 !important; /* Black text for input fields */
-  background-color: #fff; /* White background for input fields */
-}
-
-.form-actions {
+.admin-form {
   display: flex;
   justify-content: center;
-  margin-top: 1.5rem;
-}
+  align-items: center;
+  padding: 20px;
+  margin-top: 38px;
 
-button {
-  background-color: #00a8d6; /* Vibrant blue button */
-  color: #fff;
-  font-weight: bold;
-  padding: 0.5rem 2rem;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
+  mat-card {
+    width: 100%;
+    max-width: 600px;
+    background-color: rgba(50, 50, 50, 0.9); /* Slightly darker for better contrast */
+    color: #f5f5f5;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    border-radius: 8px;
 
-  &:hover {
-    background-color: #007a9c; /* Darker blue on hover */
+    mat-card-title {
+      text-align: center;
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      color: #ffd700; /* Gold for a standout title */
+    }
+
+    h3 {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      border-bottom: 2px solid #ffd700;
+      padding-bottom: 5px;
+      color: #ffd700;
+    }
+
+    mat-form-field {
+      margin-bottom: 1.5rem;
+
+      input,
+      textarea {
+        color: #f0f0f0;
+      }
+
+      mat-label {
+        color: #f6f6f6; /* Lighter label color for contrast */
+      }
+
+      .mat-mdc-form-field-ripple {
+        background-color: #ffd700; /* Gold ripple effect */
+      }
+
+      .mat-mdc-hint {
+        color: #ccc; /* Optional: lighter hint text */
+      }
+    }
+
+    .file-upload {
+      margin-bottom: 16px;
+
+      input[type="file"] {
+        color: #f5f5f5;
+      }
+
+      label {
+        font-size: 0.9rem;
+        color: #ccc;
+      }
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: center;
+      margin-top: 2rem;
+
+      button {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+        font-weight: bold;
+        color: #ffffff;
+        background-color: #ffd700; /* Gold button */
+        border-radius: 4px;
+
+        &:hover {
+          background-color: #e5c100; /* Slightly darker gold */
+        }
+      }
+    }
   }
 }
 
-.snackbar {
-  background-color: #00c853 !important; /* Green for success messages */
-  color: #fff;
-  text-align: center;
-  font-size: 1rem;
+.user-display {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #ffd700; /* Gold for user display */
 }

@@ -1,87 +1,98 @@
 
-
-
 <form class="admin-form">
   <mat-card>
     <mat-card-title>Administrative Panel - Add New Movie</mat-card-title>
     <mat-card-content>
-      <!-- Cinema Information -->
-      <h3>Cinema Information</h3>
-      <table class="example-full-width" cellspacing="0">
-        <tr>
-          <td>
-            <mat-form-field class="example-full-width">
-              <mat-label>Admin Name</mat-label>
-              <input matInput placeholder="Enter your name" required>
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <mat-label>Cinema Name</mat-label>
-              <input matInput placeholder="Enter the cinema name" required>
-            </mat-form-field>
-          </td>
-        </tr>
-      </table>
-
-      <!-- Movie Information -->
       <h3>Movie Information</h3>
+
       <mat-form-field class="example-full-width">
-        <mat-label>Movie Title</mat-label>
-        <input matInput placeholder="Enter the movie title" required>
+        <mat-label>Title</mat-label>
+        <input 
+          matInput 
+          placeholder="Enter the movie title" 
+          [(ngModel)]="movieDto.title" 
+          name="title" 
+          required 
+        />
       </mat-form-field>
 
       <mat-form-field class="example-full-width">
         <mat-label>Description</mat-label>
-        <textarea matInput placeholder="Write a brief description"></textarea>
+        <textarea 
+          matInput 
+          placeholder="Enter movie description" 
+          [(ngModel)]="movieDto.description" 
+          name="description" 
+          required
+        ></textarea>
       </mat-form-field>
-
-      <table class="example-full-width" cellspacing="0">
-        <tr>
-          <td>
-            <mat-form-field class="example-full-width">
-              <mat-label>Genre</mat-label>
-              <input matInput placeholder="e.g., Action, Comedy, Drama" required>
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <mat-label>Duration (minutes)</mat-label>
-              <input matInput type="number" placeholder="e.g., 120" required>
-            </mat-form-field>
-          </td>
-        </tr>
-      </table>
-
-      <table class="example-full-width" cellspacing="0">
-        <tr>
-          <td>
-            <mat-form-field class="example-full-width">
-              <mat-label>Release Date</mat-label>
-              <input matInput [matDatepicker]="releaseDatePicker" placeholder="Select release date" required />
-              <mat-datepicker-toggle matSuffix [for]="releaseDatePicker"></mat-datepicker-toggle>
-              <mat-datepicker #releaseDatePicker></mat-datepicker>
-            </mat-form-field>
-          </td>
-          <td>
-            <mat-form-field class="example-full-width">
-              <mat-label>Language</mat-label>
-              <input matInput placeholder="e.g., English, French, Arabic" required>
-            </mat-form-field>
-          </td>
-        </tr>
-      </table>
-
-    
 
       <mat-form-field class="example-full-width">
-        <mat-label>Showtime</mat-label>
-        <input matInput placeholder="e.g., 2:00 PM, 5:00 PM" required>
+        <mat-label>Duration (in minutes)</mat-label>
+        <input 
+          matInput 
+          type="number" 
+          placeholder="Enter duration" 
+          [(ngModel)]="movieDto.duration" 
+          name="duration" 
+          required 
+        />
       </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Genre</mat-label>
+        <input 
+          matInput 
+          placeholder="Enter genre" 
+          [(ngModel)]="movieDto.genre.name" 
+          name="genre" 
+          required 
+        />
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Release Date</mat-label>
+        <input 
+          matInput 
+          type="date" 
+          [(ngModel)]="movieDto.releaseDate" 
+          name="releaseDate" 
+          required 
+        />
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Rating</mat-label>
+        <input 
+          matInput 
+          type="number" 
+          step="0.1" 
+          min="0" 
+          max="10" 
+          placeholder="Enter rating" 
+          [(ngModel)]="movieDto.rating" 
+          name="rating" 
+          required 
+        />
+      </mat-form-field>
+
+      <!-- File Input -->
+      <div class="file-upload">
+        <label for="fileInput">Poster:</label>
+        <input 
+          type="file" 
+          id="fileInput" 
+          (change)="onFileSelected($event)" 
+        />
+      </div>
 
       <!-- Submit Button -->
       <div class="form-actions">
-        <button mat-raised-button color="primary" type="submit">
+        <button 
+          mat-raised-button 
+          color="primary" 
+          (click)="addMovie()"
+        >
           Add Movie
         </button>
       </div>

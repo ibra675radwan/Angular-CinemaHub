@@ -46,10 +46,12 @@ export class LoginComponent {
           this.router.navigate(['/movies']);  // Navigate on success        } else {
           this.errorMessage = 'Login failed. Please try again.';
         }
+        
       },
       error: () => {
         this.errorMessage = 'Invalid username or password.';
       }
     });
+    
   }
 }
